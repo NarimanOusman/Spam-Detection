@@ -1,12 +1,12 @@
-# 🛡️ Spam Detection Web Application
+# Spam Detection Web Application
 
 A beginner-friendly **MLOps demo project** for university students. This project demonstrates the full lifecycle of a machine learning application — from training a model to deploying it on the cloud.
 
-> **👋 Hey Classmate!** Follow this README step by step. By the end, you will have your own spam detector running on the internet!
+>  Hey Classmate! Follow this README step by step. By the end, you will have your own spam detector running on the internet!
 
 ---
 
-## 📌 What You Will Build
+##  What You Will Build
 
 A web app that classifies text messages as **Spam** or **Not Spam** using machine learning.
 
@@ -23,7 +23,7 @@ A web app that classifies text messages as **Spam** or **Not Spam** using machin
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Spam-Detection/
@@ -47,13 +47,13 @@ Spam-Detection/
 
 ---
 
-## 🚀 PART 1 — Clone & Run Locally
+## PART 1 — Clone & Run Locally
 
 These steps get the project running on your own computer.
 
 ---
 
-### ✅ Prerequisites
+### Prerequisites
 
 Make sure you have these installed before starting:
 
@@ -78,49 +78,14 @@ You should now see the project files in your terminal.
 
 ---
 
-### Step 2 — Download the Dataset
+### Step 2 — The Dataset is Already Included
 
-The dataset file (`spam.csv`) is not included in the repository because it is listed in `.gitignore`. You need to download it yourself.
+The `spam.csv` file is included in the repository, so you get it automatically when you clone. Nothing extra to do!
 
-**Option A — Download automatically (recommended):**
-```bash
-python3 -c "
-import urllib.request, zipfile, csv, os
-
-url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip'
-print('Downloading dataset...')
-urllib.request.urlretrieve(url, 'temp.zip')
-
-with zipfile.ZipFile('temp.zip', 'r') as z:
-    z.extractall('.')
-
-with open('SMSSpamCollection', 'r', encoding='utf-8') as tsv_f:
-    reader = csv.reader(tsv_f, delimiter='\t')
-    rows = list(reader)
-
-with open('spam.csv', 'w', encoding='utf-8', newline='') as csv_f:
-    writer = csv.writer(csv_f)
-    writer.writerow(['label', 'message'])
-    writer.writerows(rows)
-
-os.remove('temp.zip')
-os.remove('SMSSpamCollection')
-if os.path.exists('readme'):
-    os.remove('readme')
-
-print(f'Done! spam.csv created with {len(rows)} rows.')
-"
-```
-
-**Option B — Download manually:**
-1. Go to: https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection
-2. Download the zip file and extract it
-3. You will get a file called `SMSSpamCollection`
-4. Convert it to CSV by running the script above, or ask your instructor for the `spam.csv` file
-
-After this step, you should have a `spam.csv` file in the project folder.
+> The dataset contains **5,572 SMS messages** labelled as `ham` (legitimate) or `spam`.
 
 ---
+
 
 ### Step 3 — Create a Virtual Environment
 
@@ -141,7 +106,7 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
-> 💡 You will see `(venv)` appear at the start of your terminal line. That means it worked!
+> You will see `(venv)` appear at the start of your terminal line. That means it worked!
 
 ---
 
@@ -216,7 +181,7 @@ Press `CTRL + C` in the terminal to stop the app.
 
 ---
 
-## 🐙 PART 2 — Push to Your Own GitHub Repository
+## PART 2 — Push to Your Own GitHub Repository
 
 Now you will create your own GitHub repository and push this project to it.
 
@@ -257,17 +222,17 @@ git remote add origin https://github.com/YOUR_GITHUB_USERNAME/Spam-Detection.git
 git push -u origin main
 ```
 
-> 💡 GitHub may ask for your username and password. Use your GitHub username and a **Personal Access Token** (not your password). Create one at: **GitHub → Settings → Developer settings → Personal access tokens**
+> GitHub may ask for your username and password. Use your GitHub username and a **Personal Access Token** (not your password). Create one at: **GitHub → Settings → Developer settings → Personal access tokens**
 
 ---
 
 ### Step 3 — Verify
 
-Go to `https://github.com/YOUR_GITHUB_USERNAME/Spam-Detection` — you should see all your files there! ✅
+Go to `https://github.com/YOUR_GITHUB_USERNAME/Spam-Detection` — you should see all your files there!
 
 ---
 
-## 🐳 PART 3 — Docker
+## PART 3 — Docker
 
 Docker packages your app so it can run on any computer or server.
 
@@ -328,11 +293,11 @@ docker tag spam-detector YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 docker push YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 ```
 
-Your image is now publicly available on Docker Hub! 🎉
+Your image is now publicly available on Docker Hub!
 
 ---
 
-## ⚙️ PART 4 — GitHub Actions (Automatic CI/CD)
+## PART 4 — GitHub Actions (Automatic CI/CD)
 
 Every time you push code to GitHub, GitHub Actions will automatically build and push your Docker image. No manual steps needed!
 
@@ -369,11 +334,11 @@ git push origin main
 2. Click the **Actions** tab
 3. You will see your workflow running — click it to watch the logs!
 
-When it finishes with a green ✅, your Docker image has been automatically updated on Docker Hub.
+When it finishes with a green , your Docker image has been automatically updated on Docker Hub.
 
 ---
 
-## ☁️ PART 5 — Deploy to AWS (EC2)
+## PART 5 — Deploy to AWS (EC2)
 
 Run your Docker container on a cloud server so anyone in the world can access it.
 
@@ -410,7 +375,7 @@ chmod 400 my-key.pem
 ssh -i my-key.pem ubuntu@YOUR_EC2_PUBLIC_IP
 ```
 
-> 💡 Find your EC2 Public IP in the AWS Console → EC2 → Instances → click your instance → look for **Public IPv4 address**
+> Find your EC2 Public IP in the AWS Console → EC2 → Instances → click your instance → look for **Public IPv4 address**
 
 ---
 
@@ -462,11 +427,11 @@ Go to:
 http://YOUR_EC2_PUBLIC_IP:5000
 ```
 
-Your app is live on the internet! 🌍
+Your app is live on the internet!
 
 ---
 
-## 🔷 PART 6 — Deploy to Azure (Web Apps)
+## PART 6 — Deploy to Azure (Web Apps)
 
 A simpler cloud deployment — no SSH needed!
 
@@ -519,11 +484,11 @@ After deployment:
 https://spam-detector-yourname.azurewebsites.net
 ```
 
-Open it in your browser — your app is live! 🎉
+Open it in your browser — your app is live!
 
 ---
 
-## 📊 Dataset Information
+##  Dataset Information
 
 - **Name:** SMS Spam Collection Dataset
 - **Source:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection)
@@ -532,6 +497,6 @@ Open it in your browser — your app is live! 🎉
 
 ---
 
-## 📄 License
+## License
 
 This project is for educational purposes. Dataset credit: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection).
