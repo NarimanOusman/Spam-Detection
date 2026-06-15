@@ -1,8 +1,8 @@
 # Spam Detection Web Application
 
-A beginner-friendly **MLOps demo project** for university students. This project demonstrates the full lifecycle of a machine learning application — from training a model to deploying it on the cloud.
+A beginner-friendly **MLOps demo project**. This project demonstrates the full lifecycle of a machine learning application — from training a model to deploying it on the cloud.
 
->  Hey Classmate! Follow this README step by step. By the end, you will have your own spam detector running on the internet!
+>  Follow this README step by step. By the end, you will have your own spam detector running on the internet!
 
 ---
 
@@ -114,6 +114,11 @@ venv\Scripts\activate
 
 ```bash
 pip install -r requirements.txt
+```
+
+```bash
+# Or
+python -m pip install -r requirements.txt
 ```
 
 This installs Flask, scikit-learn, pandas, and gunicorn. Wait for it to finish.
@@ -412,25 +417,22 @@ You are now inside the Ubuntu server. Run these commands one by one:
 
 ```bash
 # Update the package list
-sudo apt-get update -y
+sudo apt update
 
+```bash
 # Install Docker
-sudo apt-get install -y docker.io
+sudo apt install docker.io -y
+```
 
+```bash
+# Verify Docker
+docker --version
+```
+
+```bash
 # Start Docker
 sudo systemctl start docker
 sudo systemctl enable docker
-
-# Allow ubuntu user to use Docker without sudo
-sudo usermod -aG docker ubuntu
-
-# Exit the server
-exit
-```
-
-Reconnect via SSH, then verify Docker works:
-```bash
-docker --version
 ```
 
 ---
