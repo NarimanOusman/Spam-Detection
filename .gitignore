@@ -16,8 +16,6 @@ venv/
 model.pkl
 vectorizer.pkl
 
-# Dataset files — provide separately
-SMSSpamCollection
-readme
-smsspamcollection.zip
+# Dataset file — students should add their own spam.csv to the project root
+spam.csv
 emails.csv

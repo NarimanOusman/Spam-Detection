@@ -23,14 +23,14 @@ def main():
     print("--- PART 1: DATA PREPROCESSING ---")
     
     # 1. Load the dataset
-    # The SMSSpamCollection file is a tab-separated values (TSV) file.
-    dataset_path = 'SMSSpamCollection'
+    # The dataset is stored as a CSV file with two columns: label and message.
+    dataset_path = 'spam.csv'
     print(f"Loading dataset from {dataset_path}...")
     
     if not os.path.exists(dataset_path):
-        raise FileNotFoundError(f"Dataset file '{dataset_path}' not found! Please run the download script first.")
+        raise FileNotFoundError(f"Dataset file '{dataset_path}' not found! Make sure spam.csv is in the project root.")
         
-    df = pd.read_csv(dataset_path, sep='\t', names=['label', 'message'])
+    df = pd.read_csv(dataset_path)
     print(f"Dataset loaded successfully with {len(df)} rows.")
 
     # 2. Check and handle missing values
