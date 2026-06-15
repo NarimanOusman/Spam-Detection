@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Spam Detection Web App — Enter a text message to find out if it is spam or not spam using machine learning."/>
+  <title>Spam Detector | ML Demo</title>
+
+  <!-- Google Fonts for modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       CSS Reset & Variables
+    ========================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark:        #0d1117;
+      --bg-card:        rgba(22, 27, 34, 0.85);
+      --border-color:   rgba(255, 255, 255, 0.08);
+      --accent:         #6366f1;
+      --accent-hover:   #4f52d3;
+      --spam-color:     #ef4444;
+      --spam-bg:        rgba(239, 68, 68, 0.12);
+      --ham-color:      #22c55e;
+      --ham-bg:         rgba(34, 197, 94, 0.12);
+      --text-primary:   #f0f6fc;
+      --text-secondary: #8b949e;
+      --text-muted:     #484f58;
+      --radius-lg:      16px;
+      --radius-md:      10px;
+      --shadow:         0 8px 32px rgba(0, 0, 0, 0.5);
+      --transition:     all 0.25s ease;
+    }
+
+    /* =========================================================
+       Base Layout
+    ========================================================= */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      /* Animated gradient background */
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, 0.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 90%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+    }
+
+    /* =========================================================
+       Card (Glassmorphism)
+    ========================================================= */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 640px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================================
+       Header
+    ========================================================= */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .header h1 span {
+      /* Purple gradient on the title accent word */
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       Form Elements
+    ========================================================= */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      resize: vertical;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    textarea:focus {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.05);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    /* =========================================================
+       Predict Button
+    ========================================================= */
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.02em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(135deg, #4f52d3, #7c3aed);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       Result Box
+    ========================================================= */
+    .result-box {
+      margin-top: 28px;
+      padding: 20px 24px;
+      border-radius: var(--radius-md);
+      border-left: 4px solid;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    /* Spam result: red tones */
+    .result-box.spam {
+      background: var(--spam-bg);
+      border-left-color: var(--spam-color);
+    }
+
+    /* Ham (not spam) result: green tones */
+    .result-box.ham {
+      background: var(--ham-bg);
+      border-left-color: var(--ham-color);
+    }
+
+    .result-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      opacity: 0.7;
+    }
+
+    .result-box.spam .result-label { color: var(--spam-color); }
+    .result-box.ham  .result-label { color: var(--ham-color); }
+
+    .result-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .result-box.spam .result-text { color: #fca5a5; }
+    .result-box.ham  .result-text { color: #86efac; }
+
+    /* =========================================================
+       Original Message Preview
+    ========================================================= */
+    .message-preview {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-style: italic;
+      border-top: 1px solid var(--border-color);
+      padding-top: 10px;
+    }
+
+    .message-preview strong {
+      font-style: normal;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       Footer
+    ========================================================= */
+    .footer {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .footer .pills {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pill {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       Responsive
+    ========================================================= */
+    @media (max-width: 520px) {
+      .card {
+        padding: 32px 24px;
+      }
+      .header h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card" role="main">
+
+    <!-- Header -->
+    <div class="header">
+      <span class="badge">MLOps Demo Project</span>
+      <h1>Spam <span>Detector</span></h1>
+      <p>Enter any text message below to predict whether it is <strong>spam</strong> or a <strong>legitimate</strong> message using a Naive Bayes machine learning model.</p>
+    </div>
+
+    <!-- Prediction Form -->
+    <form id="spam-form" method="POST" action="/" autocomplete="off">
+      <div class="form-group">
+        <label for="message-input">Your Message</label>
+        <textarea
+          id="message-input"
+          name="message"
+          placeholder="e.g. Congratulations! You've won a free iPhone. Click here to claim your prize now!"
+          required
+          aria-required="true"
+          aria-label="Enter a text message to check for spam"
+        >{{ message or '' }}</textarea>
+      </div>
+
+      <button type="submit" id="predict-btn">
+        🔍 &nbsp; Predict
+      </button>
+    </form>
+
+    <!-- Prediction Result -->
+    {% if prediction is not none %}
+      <div class="result-box {{ 'spam' if is_spam else 'ham' }}" role="alert" aria-live="polite">
+        <div class="result-label">{{ 'Verdict: Spam' if is_spam else 'Verdict: Not Spam' }}</div>
+        <div class="result-text">{{ prediction }}</div>
+        {% if message %}
+          <div class="message-preview">
+            <strong>Message analyzed:</strong><br>
+            "{{ message[:200] }}{{ '…' if message|length > 200 else '' }}"
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Powered by Multinomial Naive Bayes · SMS Spam Collection Dataset</p>
+      <div class="pills">
+        <span class="pill">Flask</span>
+        <span class="pill">scikit-learn</span>
+        <span class="pill">Docker</span>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

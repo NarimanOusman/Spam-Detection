@@ -1,0 +1,23 @@
+# .gitignore
+# Tells Git which files/folders to ignore and NOT push to the repository.
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment folder
+venv/
+.env/
+
+# macOS metadata
+.DS_Store
+
+# Trained model files — students will generate these themselves by running train.py
+model.pkl
+vectorizer.pkl
+
+# Dataset files — provide separately
+SMSSpamCollection
+readme
+smsspamcollection.zip
+emails.csv
