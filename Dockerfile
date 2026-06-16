@@ -12,6 +12,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project directory into the container's /app directory.
 COPY . .
 
+# Train the model during image build so the .pkl files are generated and packaged
+RUN python train.py
+
 # ── Stage 5: Expose the application port ─────────────────────────────────────
 # Inform Docker that the container listens on port 5000 at runtime.
 EXPOSE 5000
