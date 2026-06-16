@@ -465,8 +465,8 @@ sudo docker rm spam-app
 # 2. Pull the updated image (with the model packaged inside)
 sudo docker pull YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 
-# 3. Run the container with the correct port mapping (host 8000 -> container 5000)
-sudo docker run -d -p 8000:5000 --name spam-app YOUR_DOCKERHUB_USERNAME/spam-detector:latest
+# 3. Run the container with the correct port mapping (host 5000 -> container 5000)
+sudo docker run -d -p 5000:5000 --name spam-app YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 ```
 
 ---
@@ -474,8 +474,9 @@ sudo docker run -d -p 8000:5000 --name spam-app YOUR_DOCKERHUB_USERNAME/spam-det
 ### Step 6 — Open in Browser
 
 Go to your web browser and enter:
-* If you ran Step 5 (port 5000): `http://YOUR_EC2_PUBLIC_IP:5000`
-* If you ran the update steps (port 8000): `http://YOUR_EC2_PUBLIC_IP:8000`
+```
+http://YOUR_EC2_PUBLIC_IP:5000
+```
 
 Your app is live on the internet!
 
