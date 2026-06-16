@@ -321,8 +321,14 @@ docker login
 # Tag your image (replace YOUR_DOCKERHUB_USERNAME)
 docker tag spam-detector YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 
+# or 
+sudo docker pull YOUR_DOCKERHUB_USERNAME/spam-detector:latest
+
 # Push the image
 docker push YOUR_DOCKERHUB_USERNAME/spam-detector:latest
+
+# or
+sudo push YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 ```
 
 Your image is now publicly available on Docker Hub!
