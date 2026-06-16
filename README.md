@@ -449,18 +449,33 @@ sudo systemctl enable docker
 # Pull your image from Docker Hub (replace YOUR_DOCKERHUB_USERNAME)
 docker pull YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 
-# Run the container in the background
+# Run the container in the background (mapping host port 5000 to container port 5000)
 docker run -d -p 5000:5000 --name spam-app YOUR_DOCKERHUB_USERNAME/spam-detector:latest
+```
+
+#### 🔄 How to Update or Restart (if container fails or code changes)
+
+If your container crashes (e.g. missing files) or you have updated your model/code, run these commands to redeploy:
+
+```bash
+# 1. Stop and remove the failed container
+sudo docker stop spam-app
+sudo docker rm spam-app
+
+# 2. Pull the updated image (with the model packaged inside)
+sudo docker pull YOUR_DOCKERHUB_USERNAME/spam-detector:latest
+
+# 3. Run the container with the correct port mapping (host 8000 -> container 5000)
+sudo docker run -d -p 8000:5000 --name spam-app YOUR_DOCKERHUB_USERNAME/spam-detector:latest
 ```
 
 ---
 
 ### Step 6 — Open in Browser
 
-Go to:
-```
-http://YOUR_EC2_PUBLIC_IP:5000
-```
+Go to your web browser and enter:
+* If you ran Step 5 (port 5000): `http://YOUR_EC2_PUBLIC_IP:5000`
+* If you ran the update steps (port 8000): `http://YOUR_EC2_PUBLIC_IP:8000`
 
 Your app is live on the internet!
 
